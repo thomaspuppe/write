@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>wryte.</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <style>
+          body {
+            font-family: mono, monospace;
+          }
+          h1 {
+            font-size: calc(4.4em + 0.7vw);
+            text-align: center;
+          }
+          #writer {
+            caret-color: blue;
+            font-size: calc(0.4em + 0.7vw);
+            margin: 3rem auto;
+            max-width: 70ch; 
+            white-space: break-spaces;
+          }
+        </style>
+    </head>
+    <body>
+
+      <h1>wryte.</h1>
+      <pre id="writer" contenteditable="true" onkeydown="return ([8,37,38,39,40,46].indexOf(event.keyCode)==-1);" /></pre>
+
+      <script>
+        document.getElementById('writer').focus();
+      </script>
+    </body>
+</html>
+<!-- 
+
+# Inspiration
+- https://couchto50k.club/write-only/ 
+
+# TODO
+
+## Features
+
+[x] Contenteditable mit Autofocus
+[x] Keys: 8,37,38,39,40,46
+[ ] Überschrift wird kleiner, wenn man ein paar Buchstaben geschrieben hat.
+[ ] Infotext verschwindet, wenn man ein paar Buchstaben geschrieben hat.
+[ ] Text in Localstorage retten, für den Fall dass man reloadet
+[ ] Button für die localstorage-Löschung
+[ ] Geil stylen
+    - die Überschrift ist hässlich mit dem Kerning
+[ ] Dark Mode mit hübschem Icon
+[ ] alten Text abdunkeln?
+[ ] kann ich per JS den Text als .txt Datei zum Download anbieten?
+[ ] beim Fokussieren den Cursor immer and Ende zwingen
+
+## Marketing
+
+[ ] Domain
+    - writeforward.com?
+    - justwrite.dev
+    - justwrite.tools
+    - getjustwrite.com
+    - wryte.app
+    - wryte.now.sh (!)
+[ ] Patreon/Buymeabeer
+
+-->
