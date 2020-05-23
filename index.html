@@ -24,10 +24,79 @@
     <body>
 
       <h1>wryte.</h1>
-      <pre id="writer" contenteditable="true" onkeydown="return ([8,37,38,39,40,46].indexOf(event.keyCode)==-1);" /></pre>
+      <pre id="writer" contenteditable="true" onfocus="this.selectionStart = this.selectionEnd = this.innerText.length;"></pre>
 
       <script>
-        document.getElementById('writer').focus();
+        var localStorageAvailable = true;
+        $writer = document.getElementById('writer');
+
+        try {
+            var storedText = window.localStorage.getItem('wryte_content');
+            if (storedText) {
+                $writer.innerText = storedText;
+            }
+        } catch {
+            localStorageAvailable = false;
+        }
+
+        // Boah, echt? (https://jsfiddle.net/nrx9yvw9/5/)
+        function createRange(node, chars, range) {
+            if (!range) {
+                range = document.createRange()
+                range.selectNode(node);
+                range.setStart(node, 0);
+            }
+
+            if (chars.count === 0) {
+                range.setEnd(node, chars.count);
+            } else if (node && chars.count >0) {
+                if (node.nodeType === Node.TEXT_NODE) {
+                    if (node.textContent.length < chars.count) {
+                        chars.count -= node.textContent.length;
+                    } else {
+                         range.setEnd(node, chars.count);
+                         chars.count = 0;
+                    }
+                } else {
+                    for (var lp = 0; lp < node.childNodes.length; lp++) {
+                        range = createRange(node.childNodes[lp], chars, range);
+
+                        if (chars.count === 0) {
+                           break;
+                        }
+                    }
+                }
+           } 
+
+           return range;
+        };
+
+        $writer.focus();
+        var selection = window.getSelection();
+        var range = createRange($writer, { count: $writer.innerText.length });
+        if (range) {
+            range.collapse(false);
+            selection.removeAllRanges();
+            selection.addRange(range);
+        }
+
+        $writer.addEventListener('keydown', function(evt) {
+            window.console.log('keydown', evt);
+            if ([8,37,38,39,40,46].indexOf(event.keyCode)>-1) {
+                evt.preventDefault();
+            }
+            
+            if (localStorageAvailable && (event.keyCode<49 || event.keyCode>90)) {
+                // TODO: Auch bei Satzzeichen? Immer bei nicht-Buchstaben? 
+                // Lieber Regex auf Buchstaben??
+                try {
+                    window.localStorage.setItem('wryte_content', evt.target.innerText);
+                } catch(error) {
+                    localStorageAvailable = false;
+                }
+            }
+            
+        });
       </script>
     </body>
 </html>
@@ -35,6 +104,7 @@
 
 # Inspiration
 - https://couchto50k.club/write-only/ 
+  > What ist this? I cannot correct it?My my my. But this is interesting. Was war hier nochmal der Gag? Dass alle paar Sekunden der Text weggespeichert wird. Nice.Ne, warte nicht alle paar Sekunden. Sondern bei jedem Leerzeichen.Das ist ja auch ne Idee, dass ich innerhalb von Wörtern korrgieren kann, aber nicht mehr.Und ddass der dgeschriebene Text nach ein paar Zeilen verschwindet, ist auch eher ein Featur eals ein Bug. sehr schön gemacht.
 
 # TODO
 
@@ -52,6 +122,8 @@
 [ ] alten Text abdunkeln?
 [ ] kann ich per JS den Text als .txt Datei zum Download anbieten?
 [ ] beim Fokussieren den Cursor immer and Ende zwingen
+[ ] Toggle Fullscreen
+[ ] Word counter (Leerzeichen Counter :-))
 
 ## Marketing
 
