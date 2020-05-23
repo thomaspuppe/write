@@ -40,6 +40,7 @@
       <aside>
         <button id="empty">empty text</button>
         <button id="darkmode">switch dark mode</button>
+        <button id="fullscreen">fullscreen</button>
       </aside>
 
       <script>
@@ -113,7 +114,6 @@
         });
 
         document.querySelector('#empty').addEventListener('click', function(evt) {
-            evt.preventDefault();
             if (localStorageAvailable) {
                 try {
                     window.localStorage.removeItem('wryte_content');
@@ -126,8 +126,12 @@
         });
 
         document.querySelector('#darkmode').addEventListener('click', function(evt) {
-            evt.preventDefault();
             document.body.classList.toggle('dark');
+            $writer.focus();
+        });
+
+        document.querySelector('#fullscreen').addEventListener('click', function(evt) {
+            document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen();
             $writer.focus();
         });
       </script>
@@ -157,11 +161,12 @@
     [ ] mit hübschem Icon
 [ ] alten Text abdunkeln?
 [ ] kann ich per JS den Text als .txt Datei zum Download anbieten?
-[ ] beim Fokussieren den Cursor immer and Ende zwingen
+[x] beim Fokussieren den Cursor immer and Ende zwingen
 [ ] Toggle Fullscreen
 [ ] Word counter (Leerzeichen Counter :-))
 [ ] CSS Vars für die Farben
 [ ] nativen Dark Mode unterstützen (dann keinen Button anbieten oder was?)
+[ ] Schrift perfekt stylen mit optimizeLegibility usw
 
 ## Marketing
 
