@@ -7,16 +7,15 @@
         <style>
           body {
             font-family: mono, monospace;
+            font-size: calc(0.4em + 0.7vw);
+            max-width: 70ch;
+            margin: 3rem auto;
           }
           h1 {
             font-size: calc(4.4em + 0.7vw);
-            text-align: center;
           }
           #writer {
             caret-color: blue;
-            font-size: calc(0.4em + 0.7vw);
-            margin: 3rem auto;
-            max-width: 70ch; 
             white-space: break-spaces;
           }
         </style>
@@ -25,6 +24,10 @@
 
       <h1>wryte.</h1>
       <pre id="writer" contenteditable="true" onfocus="this.selectionStart = this.selectionEnd = this.innerText.length;"></pre>
+
+      <aside>
+        <button id="empty">empty text</button>
+      </aside>
 
       <script>
         var localStorageAvailable = true;
@@ -81,7 +84,6 @@
         }
 
         $writer.addEventListener('keydown', function(evt) {
-            window.console.log('keydown', evt);
             if ([8,37,38,39,40,46].indexOf(event.keyCode)>-1) {
                 evt.preventDefault();
             }
@@ -95,7 +97,19 @@
                     localStorageAvailable = false;
                 }
             }
-            
+        });
+
+        document.querySelector('#empty').addEventListener('click', function(evt) {
+            evt.preventDefault();
+            if (localStorageAvailable) {
+                try {
+                    window.localStorage.removeItem('wryte_content');
+                } catch(error) {
+                    localStorageAvailable = false;
+                }
+            }
+            $writer.innerText = '';
+            $writer.focus();
         });
       </script>
     </body>
@@ -114,8 +128,8 @@
 [x] Keys: 8,37,38,39,40,46
 [ ] Überschrift wird kleiner, wenn man ein paar Buchstaben geschrieben hat.
 [ ] Infotext verschwindet, wenn man ein paar Buchstaben geschrieben hat.
-[ ] Text in Localstorage retten, für den Fall dass man reloadet
-[ ] Button für die localstorage-Löschung
+[x] Text in Localstorage retten, für den Fall dass man reloadet
+[x] Button für die localstorage-Löschung
 [ ] Geil stylen
     - die Überschrift ist hässlich mit dem Kerning
 [ ] Dark Mode mit hübschem Icon
