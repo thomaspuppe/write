@@ -6,27 +6,40 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <style>
           body {
+            background-color: #EFEFEF;
+            color: #000000;
             font-family: mono, monospace;
             font-size: calc(0.4em + 0.7vw);
             max-width: 70ch;
             margin: 3rem auto;
           }
+          body.dark {
+            background: #101010;
+            color: #FFFFFF;
+          }
           h1 {
             font-size: calc(4.4em + 0.7vw);
           }
+          button {
+            background: transparent;
+            color: currentColor;
+          }
           #writer {
-            caret-color: blue;
+            caret-color: #9F3E2E;
             white-space: break-spaces;
+          }
+          body.dark #writer {
+            caretColor: #E2C08D;
           }
         </style>
     </head>
     <body>
-
       <h1>wryte.</h1>
       <pre id="writer" contenteditable="true" onfocus="this.selectionStart = this.selectionEnd = this.innerText.length;"></pre>
 
       <aside>
         <button id="empty">empty text</button>
+        <button id="darkmode">switch dark mode</button>
       </aside>
 
       <script>
@@ -111,6 +124,12 @@
             $writer.innerText = '';
             $writer.focus();
         });
+
+        document.querySelector('#darkmode').addEventListener('click', function(evt) {
+            evt.preventDefault();
+            document.body.classList.toggle('dark');
+            $writer.focus();
+        });
       </script>
     </body>
 </html>
@@ -132,12 +151,17 @@
 [x] Button für die localstorage-Löschung
 [ ] Geil stylen
     - die Überschrift ist hässlich mit dem Kerning
-[ ] Dark Mode mit hübschem Icon
+[ ] Dark Mode 
+    [x] überhaupt
+    [ ] persistieren
+    [ ] mit hübschem Icon
 [ ] alten Text abdunkeln?
 [ ] kann ich per JS den Text als .txt Datei zum Download anbieten?
 [ ] beim Fokussieren den Cursor immer and Ende zwingen
 [ ] Toggle Fullscreen
 [ ] Word counter (Leerzeichen Counter :-))
+[ ] CSS Vars für die Farben
+[ ] nativen Dark Mode unterstützen (dann keinen Button anbieten oder was?)
 
 ## Marketing
 
