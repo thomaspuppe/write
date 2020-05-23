@@ -125,8 +125,15 @@
             $writer.focus();
         });
 
+        // TODO: ist das zu clever? Springt die Toggle-Funktion noch an, wenn im Safari der Localstorage aus ist?
+        document.body.classList.toggle('dark', window.localStorage.getItem('wryte_darkmode')==='true');
         document.querySelector('#darkmode').addEventListener('click', function(evt) {
-            document.body.classList.toggle('dark');
+            
+            try {
+                window.localStorage.setItem('wryte_darkmode', document.body.classList.toggle('dark'));
+            } catch(error) {
+                localStorageAvailable = false;
+            }
             $writer.focus();
         });
 
@@ -154,19 +161,19 @@
 [x] Text in Localstorage retten, für den Fall dass man reloadet
 [x] Button für die localstorage-Löschung
 [ ] Geil stylen
-    - die Überschrift ist hässlich mit dem Kerning
+    [ ] Schrift perfekt stylen mit optimizeLegibility usw
+    [ ] Buttons als Icons mit Text stylen
 [ ] Dark Mode 
     [x] überhaupt
-    [ ] persistieren
+    [x] persistieren
     [ ] mit hübschem Icon
 [ ] alten Text abdunkeln?
 [ ] kann ich per JS den Text als .txt Datei zum Download anbieten?
 [x] beim Fokussieren den Cursor immer and Ende zwingen
-[ ] Toggle Fullscreen
+[x] Toggle Fullscreen
 [ ] Word counter (Leerzeichen Counter :-))
 [ ] CSS Vars für die Farben
 [ ] nativen Dark Mode unterstützen (dann keinen Button anbieten oder was?)
-[ ] Schrift perfekt stylen mit optimizeLegibility usw
 
 ## Marketing
 
